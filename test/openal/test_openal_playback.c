@@ -54,6 +54,9 @@ void playSource(void* arg) {
   alSourceStop(source);
   alGetSourcei(source, AL_SOURCE_STATE, &state);
   assert(state == AL_STOPPED);
+  alSourcef(source, AL_SEC_OFFSET, 0.5f);
+  alGetSourcei(source, AL_SOURCE_STATE, &state);
+  assert(state == AL_STOPPED);
 #endif
 
   alSourceRewindv(1, &source);
@@ -67,6 +70,9 @@ void playSource(void* arg) {
   assert(state == AL_PAUSED);
 #ifndef TEST_LOOPED_PLAYBACK
   alSourceStopv(1, &source);
+  alGetSourcei(source, AL_SOURCE_STATE, &state);
+  assert(state == AL_STOPPED);
+  alSourcef(source, AL_SEC_OFFSET, 0.5f);
   alGetSourcei(source, AL_SOURCE_STATE, &state);
   assert(state == AL_STOPPED);
   test_finished();
