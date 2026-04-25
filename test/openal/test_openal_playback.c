@@ -54,9 +54,11 @@ void playSource(void* arg) {
   alSourceStop(source);
   alGetSourcei(source, AL_SOURCE_STATE, &state);
   assert(state == AL_STOPPED);
+#ifdef TEST_STOPPED_SEEK
   alSourcef(source, AL_SEC_OFFSET, 0.5f);
   alGetSourcei(source, AL_SOURCE_STATE, &state);
   assert(state == AL_STOPPED);
+#endif
 #endif
 
   alSourceRewindv(1, &source);
@@ -72,9 +74,11 @@ void playSource(void* arg) {
   alSourceStopv(1, &source);
   alGetSourcei(source, AL_SOURCE_STATE, &state);
   assert(state == AL_STOPPED);
+#ifdef TEST_STOPPED_SEEK
   alSourcef(source, AL_SEC_OFFSET, 0.5f);
   alGetSourcei(source, AL_SOURCE_STATE, &state);
   assert(state == AL_STOPPED);
+#endif
   test_finished();
 #endif
 }
@@ -299,7 +303,7 @@ int main() {
   printf("You should hear a short audio clip playing back.\n");
 #endif
 
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) && !defined(TEST_STOPPED_SEEK)
 
   intptr_t first_src = sources[0];
 #if defined(TEST_LOOPED_PLAYBACK)
